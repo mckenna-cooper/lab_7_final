@@ -1,0 +1,19 @@
+---
+title: Draft Report
+authors:
+  - name: Mckenna Cooper
+    affiliation: Colorado State University
+    roles: writing
+    corresponding: true
+  - name: Sarah
+    affiliation: Colorado State University
+    roles: writing
+    corresponding: false
+  - name: Archer
+    affiliation: Colorado State University
+    roles: writing
+    corresponding: false
+bibliography: references.bib
+---
+## Section
+This is a simple placeholder for the manuscript's main document [@knuth84].
