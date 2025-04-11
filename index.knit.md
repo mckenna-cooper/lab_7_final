@@ -17,6 +17,10 @@ bibliography: references.bib
 execute:
   echo: true
 ---
+
+
+
+
 # Rivers and Lakes Bring the Boys to the Yard: Assessing the Effect of Riparian Zones on Taxonomic Richness
 
 ## Introduction
@@ -43,9 +47,50 @@ execute:
 
 ## Data Visualizations
 Data Preparation
-```{r}
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code .hidden}
 # Load libraries
 library(dplyr)
+```
+
+::: {.cell-output .cell-output-stderr .hidden}
+
+```
+
+Attaching package: 'dplyr'
+```
+
+
+:::
+
+::: {.cell-output .cell-output-stderr .hidden}
+
+```
+The following objects are masked from 'package:stats':
+
+    filter, lag
+```
+
+
+:::
+
+::: {.cell-output .cell-output-stderr .hidden}
+
+```
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+```
+
+
+:::
+
+```{.r .cell-code .hidden}
 library(ggplot2)
 
 # Load datasets
@@ -68,9 +113,20 @@ merged_data <- invert_species_filtered %>%
   inner_join(riparian_cover_filtered, by = c("Lake_Code", "Park_Name", "Start_Date")) %>%
   inner_join(water_quality_filtered, by = c("Lake_Code", "Park_Name", "Start_Date"))
 ```
+:::
+
+
+
+
 **Note: Although it is stated above and in Preliminary Methods that we would only be evaluating Carter Lake National Park in the year 2018, this was not feasible for the drafted visualizations. We had to pivot to a different proposal idea due to the elimination of data this past weekend, and need more time to narrow down how to visualize with these specific data sets.
 1.
-```{r}
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code .hidden}
 library(ggplot2)
 library(dplyr)
 
@@ -94,16 +150,40 @@ invert_species %>%
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
 ```
 
+::: {.cell-output-display}
+![](index_files/figure-html/unnamed-chunk-2-1.png){width=672}
+:::
+:::
+
+
+
+
+
 2. 
-```{r}
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code .hidden}
 # Load necessary libraries
 library(ggplot2)
 library(reshape2)
+```
 
+::: {.cell-output .cell-output-stderr .hidden}
+
+```
+Warning: package 'reshape2' was built under R version 4.4.3
+```
+
+
+:::
+
+```{.r .cell-code .hidden}
 riparian_cover <- read.csv("RiparianCover.csv")
 
 # Create a sample dataset
@@ -131,6 +211,15 @@ ggplot(data_melted, aes(x = Park_Name, y = Areal_Cover, fill = Vegetation_Type))
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+::: {.cell-output-display}
+![](index_files/figure-html/unnamed-chunk-3-1.png){width=672}
+:::
+:::
+
+
+
+
 
 ## Preliminary Methods
   To begin our analysis, we will first join the three datasets—InvertSpecies.csv, RiparianCover.csv, and WaterQuality.csv—using shared identifying columns: Lake_Code, Park_Name, and Start_Date. We will then filter the merged dataset to include only Crater Lake National Park and data collected in 2018, to maintain consistency in time and location.
@@ -160,3 +249,4 @@ For statistical analysis, we will choose appropriate tests based on the type of 
 
   To support our findings, we will use ggplot2 in R to create clear and informative visualizations—such as boxplots, bar charts, or scatterplots—highlighting any significant trends or differences between the EPT-present and EPT-absent lake groups.
 Finally, missing data and uneven sampling will be carefully handled—either through exclusion of incomplete rows or imputation strategies, depending on the nature and extent of the gaps.
+

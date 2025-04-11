@@ -41,7 +41,7 @@ execute:
   Lastly, WaterQuality.csv will be used to examine physical and chemical characteristics of each lake. These variables will not only support broader ecological interpretations but also offer an additional layer of explanatory context for understanding macroinvertebrate patterns.
   By combining these three datasets with consistent identifiers and a focused temporal and spatial scope (Crater Lake, 2018), we can begin exploring the relationships among riparian cover, water quality, and macroinvertebrate biodiversity with clarity and coherence.
 
-### Data Visualizations
+## Data Visualizations
 Data Preparation
 ```{r}
 # Load libraries

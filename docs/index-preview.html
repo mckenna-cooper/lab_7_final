@@ -266,10 +266,8 @@
   <li><a href="#rivers-and-lakes-bring-the-boys-to-the-yard-assessing-the-effect-of-riparian-zones-on-taxonomic-richness" id="toc-rivers-and-lakes-bring-the-boys-to-the-yard-assessing-the-effect-of-riparian-zones-on-taxonomic-richness" class="nav-link active" data-scroll-target="#rivers-and-lakes-bring-the-boys-to-the-yard-assessing-the-effect-of-riparian-zones-on-taxonomic-richness">Rivers and Lakes Bring the Boys to the Yard: Assessing the Effect of Riparian Zones on Taxonomic Richness</a>
   <ul class="collapse">
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a>
-  <ul class="collapse">
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a></li>
   <li><a href="#data-visualizations" id="toc-data-visualizations" class="nav-link" data-scroll-target="#data-visualizations">Data Visualizations</a></li>
-  </ul></li>
   <li><a href="#preliminary-methods" id="toc-preliminary-methods" class="nav-link" data-scroll-target="#preliminary-methods">Preliminary Methods</a></li>
   </ul></li>
   </ul>
@@ -288,8 +286,9 @@
 <section id="data-exploration" class="level2">
 <h2 class="anchored" data-anchor-id="data-exploration">Data Exploration</h2>
 <p>All data for this project comes from the Klamath Lakes Monitoring Data Package 2013–2019, originally compiled by the U.S. Department of the Interior and now publicly available through Data.com. This dataset includes ecological monitoring records from Crater Lake National Park (NP), Lassen Volcanic NP, and Redwood National and State Parks (NSP). However, for the purposes of our study, we will exclusively use data collected at Crater Lake National Park, narrowing the geographic focus to improve consistency and data quality. The three files central to our analysis are InvertSpecies.csv, RiparianCover.csv, and WaterQuality.csv. These files contain complementary data and share key identifying columns, including Lake_Code, Start_Date, and Park_Name—which will allow us to merge the datasets and compare biological, physical, and vegetative conditions at each sampled water body. The InvertSpecies file contains records of benthic macroinvertebrate communities sampled in lakes and ponds. It includes fields such as Taxon, Order, Count, and Life_Stage. For this study, we will focus on the orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Trichoptera (caddisflies), which are collectively known as EPT taxa. These macroinvertebrates are widely recognized as indicators of healthy freshwater ecosystems, as they are generally sensitive to pollution and habitat degradation. The RiparianCover file provides plot-level data on vegetation type and structure in riparian zones, such as Big_trees_ArealCover, Woody_shrubs_saplings_GroundCover, Canopy_Type, and Barren_AreaCcover. These variables will help us estimate the ecological integrity and potential human impact on surrounding shorelines. Each plot corresponds to a specific lake, allowing us to associate vegetation conditions with macroinvertebrate presence in those water bodies. The WaterQuality file offers insight into the abiotic conditions of each lake, including key measurements like Temperature_C, pH, Turbidity, Dissolved_oxygen, and Specific_conductivity. These parameters may contribute to or constrain macroinvertebrate diversity and could help contextualize any patterns observed between vegetation and aquatic biodiversity. While all three files have a relatively large number of rows (RiparianCover.csv: 1,680; InvertSpecies.csv: 3,299), some fields contain missing values, particularly with respect to sampling dates and environmental measurements. To account for this, we will filter for data collected in 2018, a year with strong representation across datasets, and group observations by plot. This will allow us to match vegetation conditions with corresponding macroinvertebrate counts and water quality measurements. From RiparianCover.csv, we are particularly interested in a subset of vegetation metrics that reflect both habitat structure and disturbance: Big_trees_ArealCover, Woody_shrubs_saplings_GroundCover, and Barren_ArealCover. These will form the basis of a vegetation condition score used later in the analysis. Meanwhile, from InvertSpecies.csv, we will extract insect counts and filter specifically for EPT taxa, which we define as “significantly present” when observed in quantities of at least 10 individuals per plot. Lastly, WaterQuality.csv will be used to examine physical and chemical characteristics of each lake. These variables will not only support broader ecological interpretations but also offer an additional layer of explanatory context for understanding macroinvertebrate patterns. By combining these three datasets with consistent identifiers and a focused temporal and spatial scope (Crater Lake, 2018), we can begin exploring the relationships among riparian cover, water quality, and macroinvertebrate biodiversity with clarity and coherence.</p>
-<section id="data-visualizations" class="level3">
-<h3 class="anchored" data-anchor-id="data-visualizations">Data Visualizations</h3>
+</section>
+<section id="data-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualizations">Data Visualizations</h2>
 <p>Data Preparation</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load libraries</span></span>
@@ -407,7 +406,6 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </div></div>
-</section>
 </section>
 <section id="preliminary-methods" class="level2">
 <h2 class="anchored" data-anchor-id="preliminary-methods">Preliminary Methods</h2>
@@ -851,7 +849,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom"});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
