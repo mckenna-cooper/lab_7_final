@@ -69,6 +69,11 @@ merged_data <- invert_species_filtered %>%
 **Note: Although it is stated above and in Preliminary Methods that we would only be evaluating Carter Lake National Park in the year 2018, this was not feasible for the drafted visualizations. We had to pivot to a different proposal idea due to the elimination of data this past weekend, and need more time to narrow down how to visualize with these specific data sets.
 1.
 ```{r}
+library(ggplot2)
+library(dplyr)
+
+invert_species <- read.csv("InvertSpecies.csv")
+
 invert_species %>%
   filter(
     Park_Name == "Crater Lake National Park",
@@ -88,12 +93,16 @@ invert_species %>%
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+
 ```
 
 2. 
 ```{r}
-# Load necessary library
+# Load necessary libraries
 library(ggplot2)
+library(reshape2)
+
+riparian_cover <- read.csv("RiparianCover.csv")
 
 # Create a sample dataset
 data <- data.frame(
@@ -106,7 +115,6 @@ data <- data.frame(
 )
 
 # Melt the data for ggplot
-library(reshape2)
 data_melted <- melt(data, id.vars = "Park_Name", 
                     variable.name = "Vegetation_Type", 
                     value.name = "Areal_Cover")
