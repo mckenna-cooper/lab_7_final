@@ -5,17 +5,18 @@ authors:
     affiliation: Colorado State University
     roles: writing
     corresponding: true
-  - name: Sarah
+  - name: Sarah Culhane
     affiliation: Colorado State University
     roles: writing
     corresponding: false
-  - name: Archer
+  - name: Archer Goodman
     affiliation: Colorado State University
     roles: writing
     corresponding: false
-bibliography: references.bib
 execute:
   echo: true
+  
+bibiography: references.bib
 ---
 # Rivers and Lakes Bring the Boys to the Yard: Assessing the Effect of Riparian Zones on Taxonomic Richness
 
