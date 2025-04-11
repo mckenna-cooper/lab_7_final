@@ -2,7 +2,6 @@ project:
   type: manuscript
   output-dir: docs
 
-title: "Lab 7"
 manuscript:
   article: index.qmd
 
