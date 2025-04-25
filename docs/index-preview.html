@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.5.57">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+    <title>Draft Report</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      /* CSS for citations */
+      div.csl-bib-body { }
+      div.csl-entry {
+        clear: both;
+        margin-bottom: 0em;
+      }
+      .hanging-indent div.csl-entry {
+        margin-left:2em;
+        text-indent:-2em;
+      }
+      div.csl-left-margin {
+        min-width:2em;
+        float:left;
+      }
+      div.csl-right-inline {
+        margin-left:2em;
+        padding-left:1em;
+      }
+      div.csl-indent {
+        margin-left: 2em;
+      }    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = "index.html";
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="site_libs/manuscript-notebook/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+     <script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    document.body.classList.add('hypothesis-enabled');
+  });
+</script>  
+      <meta name="citation_title" content="Draft Report">
+<meta name="citation_author" content="Mckenna Cooper">
+<meta name="citation_author" content="Sarah ">
+<meta name="citation_author" content="Archer ">
+<meta name="citation_language" content="en">
+<meta name="citation_reference" content="citation_title=Riparian zones increase regional species richness by harboring different, not more, species;,citation_author=John L Sabo;,citation_author=Ryan Sponseller;,citation_author=Mark Dixon;,citation_author=Kris Gade;,citation_author=Tamara Harms;,citation_author=Jim Heffernan;,citation_author=Andrea Jani;,citation_author=Gabrielle Katz;,citation_author=Candan Soykan;,citation_author=James Watts;,citation_author=others;,citation_publication_date=2005;,citation_cover_date=2005;,citation_year=2005;,citation_issue=1;,citation_volume=86;,citation_journal_title=Ecology;,citation_publisher=Wiley Online Library;">
+<meta name="citation_reference" content="citation_title=Macroinvertebrates as indicators of stream health;,citation_author=Gary W Mullins;,citation_author=Stuart Lewis;,citation_publication_date=1991;,citation_cover_date=1991;,citation_year=1991;,citation_issue=8;,citation_volume=53;,citation_journal_title=The American Biology Teacher;,citation_publisher=JSTOR;">
+</head>
+
+  <body class="quarto-notebook">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> Article Notebook</h6>
+
+            <a href="./index.qmd" class="btn btn-primary quarto-download-embed" download="index.qmd">Download Source</a>
+          </div>
+
+     <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Draft Report</h1>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+            <div class="quarto-title-meta-author">
+          <div class="quarto-title-meta-heading">Authors</div>
+          <div class="quarto-title-meta-heading">Affiliation</div>
+          
+                <div class="quarto-title-meta-contents">
+            <p class="author">Mckenna Cooper </p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Colorado State University
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Sarah </p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Colorado State University
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Archer </p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Colorado State University
+                      </p>
+                  </div>
+                    </div>
+        
+        <div class="quarto-title-meta">
+
+                      
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      </div>
+    </div>
+
+
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#rivers-and-lakes-bring-the-boys-to-the-yard-assessing-the-effect-of-riparian-zones-on-taxonomic-richness" id="toc-rivers-and-lakes-bring-the-boys-to-the-yard-assessing-the-effect-of-riparian-zones-on-taxonomic-richness" class="nav-link active" data-scroll-target="#rivers-and-lakes-bring-the-boys-to-the-yard-assessing-the-effect-of-riparian-zones-on-taxonomic-richness">Rivers and Lakes Bring the Boys to the Yard: Assessing the Effect of Riparian Zones on Taxonomic Richness</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration">Data Exploration</a></li>
+  <li><a href="#data-visualizations" id="toc-data-visualizations" class="nav-link" data-scroll-target="#data-visualizations">Data Visualizations</a></li>
+  <li><a href="#preliminary-methods" id="toc-preliminary-methods" class="nav-link" data-scroll-target="#preliminary-methods">Preliminary Methods</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      
+
+       <section id="rivers-and-lakes-bring-the-boys-to-the-yard-assessing-the-effect-of-riparian-zones-on-taxonomic-richness" class="level1">
+<h1>Rivers and Lakes Bring the Boys to the Yard: Assessing the Effect of Riparian Zones on Taxonomic Richness</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Throughout the mythologies of ancient civilizations, rivers are often portrayed as sacred lifelines and mystical forces that breathe life into the land. From the Nile of Egypt to the Ganges in India, rivers shaped the very foundation of human development. The route a river carves through a landscape not only guides the path of its water, but also dictates the types of vegetation that grow alongside it, the diversity of animals that depend on it, and the feasibility of long-term human settlement. The majority of the world’s great cities were born beside rivers, not merely for commerce, which could be achieved from any coast, but for one elemental advantage: rivers carry fresh water. Drinkable water. Or at least, they used to. In today’s world, the demand for freshwater is greater than ever. Global population growth, expanding agricultural demands, urban sprawl, and climate change are placing unprecedented stress on aquatic ecosystems. Historically, human progress has been closely tied to our ability to manipulate the quantity of water available through irrigation systems, dams, aqueducts, and other technologies. But as environmental pressures grow, we are now forced to reckon with a second, equally critical dimension: water quality. Just as our ancestors learned to interpret the presence of certain plants and animals as signs of viable water sources, modern ecologists use biological indicators to evaluate the health of freshwater systems. Among the most widely used of these indicators are benthic macroinvertebrates; organisms that live on the bottom of rivers, lakes, and streams and include insects, crustaceans, mollusks, and worms. These organisms are uniquely valuable for biomonitoring due to their varied tolerance to pollutants, their limited mobility (which ties them to local conditions), and their life cycles, which span seasons or years. One particularly important group of macroinvertebrates used to indicate good water quality is the EPT taxa; Ephemeroptera (mayflies), Plecoptera (stoneflies), and Trichoptera (caddisflies). These taxa are generally sensitive to environmental disturbances, and their presence in high abundance is often correlated with clean, well-oxygenated water. In contrast, a dominance of more pollution-tolerant organisms such as oligochaete worms, leeches, and midge larvae (Chironomidae) is typically a sign of poor water quality and habitat degradation <span class="citation" data-cites="mullins1991macroinvertebrates">(<a href="#ref-mullins1991macroinvertebrates" role="doc-biblioref">Mullins &amp; Lewis, 1991</a>)</span>. However, water quality is not influenced solely by what occurs within the streambed. The surrounding environment, particularly riparian zones, plays a critical role. Riparian zones are the transitional areas between terrestrial and aquatic ecosystems, typically encompassing the vegetation and soils adjacent to rivers and streams. Though narrow in spatial extent, riparian zones provide disproportionate ecological benefits. They act as natural buffers, filtering out sediments, nutrients, and pollutants before they reach the water body. They also stabilize stream banks, reduce erosion, moderate water temperature through shading, and provide crucial habitat for a wide range of terrestrial and aquatic organisms. As such, the integrity of riparian zones is often used as a secondary, yet equally important, indicator of watershed health <span class="citation" data-cites="sabo2005riparian">(<a href="#ref-sabo2005riparian" role="doc-biblioref">Sabo et al., 2005</a>)</span>. Unfortunately, riparian zones are frequently the first casualties of human development. Agricultural expansion, urbanization, logging, and road construction often involve the removal or fragmentation of riparian vegetation. When riparian zones are degraded, their ability to support both terrestrial and aquatic biodiversity diminishes, and the systems they protect become more vulnerable to pollution, sedimentation, and thermal stress. Consequently, monitoring the type and abundance of riparian vegetation can yield valuable insights into the overall ecological condition of a watershed, and by extension, its capacity to support a diverse and healthy macroinvertebrate community. With these connections in mind, our project seeks to investigate the relationship between riparian zone condition and freshwater invertebrate diversity. Specifically, we aim to evaluate whether the composition and abundance of riparian plant cover is associated with the composition and abundance of benthic macroinvertebrates, with an emphasis on EPT taxa as indicators of ecosystem health. By exploring these patterns, we hope to contribute to a better understanding of how human land use and vegetation management practices may impact water quality through both direct and indirect ecological pathways. To conduct this analysis, we will use data from the Klamath Network Lakes Monitoring Data Package (2013–2019), which includes biological and ecological monitoring data collected across three national parks: Crater Lake, Lassen Volcanic, and Redwood National Parks. From this dataset, we will focus on three specific tables: InvertSpecies.csv, which documents the abundance of macroinvertebrates at various sampling plots, RiparianCover.csv, which describes the vegetation characteristics of corresponding riparian zones, and WaterQuality.csv which includes data on physical and chemical water parameters at each sampling plot. Integrating this dataset will allow us to account for potential covariates or confounding variables, such as dissolved oxygen, pH, or turbidity, that may influence macroinvertebrate populations independently of vegetation conditions. Using this data, we will assign a standardized “vegetation score” to each plot based on the richness and type of plant cover recorded. This score will serve as a proxy for riparian zone quality. We will then analyze the relationship between this vegetation score and macroinvertebrate diversity, particularly the presence of sensitive EPT taxa, using statistical methods in RStudio. To determine the strength and direction of relationships between variables, we will conduct correlation tests (Pearson or Spearman, depending on normality assumptions). To model the predictive influence of vegetation on macroinvertebrate abundance, we will use linear regression analysis. These statistical approaches will be complemented by clear and informative data visualizations created with ggplot2, including scatterplots, box plots, and bar graphs to communicate trends and variation across sites. This holistic approach will allow us to better interpret the ecological relationships we uncover and provide more robust insights into freshwater health within these protected park systems.</p>
+</section>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">Data Exploration</h2>
+<p>All data for this project comes from the Klamath Lakes Monitoring Data Package 2013–2019, originally compiled by the U.S. Department of the Interior and now publicly available through Data.com. This dataset includes ecological monitoring records from Crater Lake National Park (NP), Lassen Volcanic NP, and Redwood National and State Parks (NSP). However, for the purposes of our study, we will exclusively use data collected at Crater Lake National Park, narrowing the geographic focus to improve consistency and data quality. The three files central to our analysis are InvertSpecies.csv, RiparianCover.csv, and WaterQuality.csv. These files contain complementary data and share key identifying columns, including Lake_Code, Start_Date, and Park_Name—which will allow us to merge the datasets and compare biological, physical, and vegetative conditions at each sampled water body. The InvertSpecies file contains records of benthic macroinvertebrate communities sampled in lakes and ponds. It includes fields such as Taxon, Order, Count, and Life_Stage. For this study, we will focus on the orders Ephemeroptera (mayflies), Plecoptera (stoneflies), and Trichoptera (caddisflies), which are collectively known as EPT taxa. These macroinvertebrates are widely recognized as indicators of healthy freshwater ecosystems, as they are generally sensitive to pollution and habitat degradation. The RiparianCover file provides plot-level data on vegetation type and structure in riparian zones, such as Big_trees_ArealCover, Woody_shrubs_saplings_GroundCover, Canopy_Type, and Barren_AreaCcover. These variables will help us estimate the ecological integrity and potential human impact on surrounding shorelines. Each plot corresponds to a specific lake, allowing us to associate vegetation conditions with macroinvertebrate presence in those water bodies. The WaterQuality file offers insight into the abiotic conditions of each lake, including key measurements like Temperature_C, pH, Turbidity, Dissolved_oxygen, and Specific_conductivity. These parameters may contribute to or constrain macroinvertebrate diversity and could help contextualize any patterns observed between vegetation and aquatic biodiversity. While all three files have a relatively large number of rows (RiparianCover.csv: 1,680; InvertSpecies.csv: 3,299), some fields contain missing values, particularly with respect to sampling dates and environmental measurements. To account for this, we will filter for data collected in 2018, a year with strong representation across datasets, and group observations by plot. This will allow us to match vegetation conditions with corresponding macroinvertebrate counts and water quality measurements. From RiparianCover.csv, we are particularly interested in a subset of vegetation metrics that reflect both habitat structure and disturbance: Big_trees_ArealCover, Woody_shrubs_saplings_GroundCover, and Barren_ArealCover. These will form the basis of a vegetation condition score used later in the analysis. Meanwhile, from InvertSpecies.csv, we will extract insect counts and filter specifically for EPT taxa, which we define as “significantly present” when observed in quantities of at least 10 individuals per plot. Lastly, WaterQuality.csv will be used to examine physical and chemical characteristics of each lake. These variables will not only support broader ecological interpretations but also offer an additional layer of explanatory context for understanding macroinvertebrate patterns. By combining these three datasets with consistent identifiers and a focused temporal and spatial scope (Crater Lake, 2018), we can begin exploring the relationships among riparian cover, water quality, and macroinvertebrate biodiversity with clarity and coherence.</p>
+</section>
+<section id="data-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualizations">Data Visualizations</h2>
+<p>Data Preparation</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load datasets</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>invert_species <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"InvertSpecies.csv"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>riparian_cover <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"RiparianCover.csv"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>water_quality <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"WaterQuality.csv"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Crater Lake and 2018</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>invert_species_filtered <span class="ot">&lt;-</span> invert_species <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Park_Name <span class="sc">==</span> <span class="st">"Crater Lake National Park"</span> <span class="sc">&amp;</span> Start_Date <span class="sc">&gt;=</span> <span class="st">"2018-01-01"</span> <span class="sc">&amp;</span> Start_Date <span class="sc">&lt;=</span> <span class="st">"2018-12-31"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>riparian_cover_filtered <span class="ot">&lt;-</span> riparian_cover <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Park_Name <span class="sc">==</span> <span class="st">"Crater Lake National Park"</span> <span class="sc">&amp;</span> Start_Date <span class="sc">&gt;=</span> <span class="st">"2018-01-01"</span> <span class="sc">&amp;</span> Start_Date <span class="sc">&lt;=</span> <span class="st">"2018-12-31"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>water_quality_filtered <span class="ot">&lt;-</span> water_quality <span class="sc">%&gt;%</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Park_Name <span class="sc">==</span> <span class="st">"Crater Lake National Park"</span> <span class="sc">&amp;</span> Start_Date <span class="sc">&gt;=</span> <span class="st">"2018-01-01"</span> <span class="sc">&amp;</span> Start_Date <span class="sc">&lt;=</span> <span class="st">"2018-12-31"</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge datasets</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>merged_data <span class="ot">&lt;-</span> invert_species_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(riparian_cover_filtered, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Lake_Code"</span>, <span class="st">"Park_Name"</span>, <span class="st">"Start_Date"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(water_quality_filtered, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Lake_Code"</span>, <span class="st">"Park_Name"</span>, <span class="st">"Start_Date"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>**Note: Although it is stated above and in Preliminary Methods that we would only be evaluating Carter Lake National Park in the year 2018, this was not feasible for the drafted visualizations. We had to pivot to a different proposal idea due to the elimination of data this past weekend, and need more time to narrow down how to visualize with these specific data sets. 1.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>invert_species <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"InvertSpecies.csv"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>invert_species <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    Park_Name <span class="sc">==</span> <span class="st">"Crater Lake National Park"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    Start_Date <span class="sc">&gt;=</span> <span class="st">"2013-01-01"</span>, Start_Date <span class="sc">&lt;=</span> <span class="st">"2019-12-31"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(Order),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(Count)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Order) <span class="sc">%&gt;%</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Total_Count =</span> <span class="fu">sum</span>(Count, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Order, <span class="sc">-</span>Total_Count), <span class="at">y =</span> Total_Count, <span class="at">fill =</span> Order)) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Total Invertebrate Count by Order (Crater Lake, 2013-2019)"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Invertebrate Order"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Count"</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="index_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+<ol start="2" type="1">
+<li></li>
+</ol>
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'reshape2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>riparian_cover <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"RiparianCover.csv"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample dataset</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Park_Name =</span> <span class="fu">c</span>(<span class="st">"Redwood National and State Parks"</span>, <span class="st">"Lassen Volcanic National Park"</span>, <span class="st">"Crater Lake National Park"</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Big_Trees =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">30</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Small_Trees =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">15</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Understory_Veg =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">25</span>, <span class="dv">20</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Woody_Shrubs_Saplings =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">25</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Herb_Grass_Forb =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">10</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt the data for ggplot</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>data_melted <span class="ot">&lt;-</span> <span class="fu">melt</span>(data, <span class="at">id.vars =</span> <span class="st">"Park_Name"</span>, </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">variable.name =</span> <span class="st">"Vegetation_Type"</span>, </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">value.name =</span> <span class="st">"Areal_Cover"</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot stacked bar chart with tilted axis labels</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_melted, <span class="fu">aes</span>(<span class="at">x =</span> Park_Name, <span class="at">y =</span> Areal_Cover, <span class="at">fill =</span> Vegetation_Type)) <span class="sc">+</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"stack"</span>) <span class="sc">+</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Riparian Vegetation Areal Cover"</span>, </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Park Name"</span>, </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Areal Cover (%)"</span>, </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Vegetation Type"</span>) <span class="sc">+</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="">
+<figure class="figure">
+<p class=""><a href="index_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="preliminary-methods" class="level2">
+<h2 class="anchored" data-anchor-id="preliminary-methods">Preliminary Methods</h2>
+<p>To begin our analysis, we will first join the three datasets—InvertSpecies.csv, RiparianCover.csv, and WaterQuality.csv—using shared identifying columns: Lake_Code, Park_Name, and Start_Date. We will then filter the merged dataset to include only Crater Lake National Park and data collected in 2018, to maintain consistency in time and location. Next, we will divide our dataset into two groups of lakes based on the presence or absence of sensitive macroinvertebrate orders: Ephemeroptera, Plecoptera, and Trichoptera (collectively referred to as EPT taxa). These taxa serve as bioindicators of high water quality and intact riparian zones. A lake will be categorized as “EPT-present” if at least 10 individuals from any of the three orders are found. Lakes without EPT taxa or with fewer than 10 individuals will be categorized as “EPT-absent.” Once we have established these two groups, we will assess potential relationships between riparian vegetation characteristics and the presence of EPT taxa. Key vegetation variables from RiparianCover.csv will include: Big_trees_ArealCover</p>
+<p>Woody_shrubs_saplings_GroundCover</p>
+<p>Barren_ArealCover</p>
+<p>We will explore creating a vegetation integrity index by standardizing and summing Big_trees_ArealCover, Woody_shrubs_saplings_GroundCover, and inverse Barren_ArealCover scores. We will also consider select abiotic water quality variables from WaterQuality.csv—such as Temperature_C, pH, and Dissolved_oxygen—to help contextualize our findings or identify confounding influences. For statistical analysis, we will choose appropriate tests based on the type of variables being compared:</p>
+<ul>
+<li><p>For categorical comparisons (e.g., EPT presence vs.&nbsp;vegetation category), we may use a Chi-squared test.</p></li>
+<li><p>For numerical comparisons (e.g., EPT presence vs.&nbsp;percent vegetation cover), we will consider a T-test or ANOVA.</p></li>
+<li><p>If relationships appear linear, we may explore correlation coefficients or linear regression models to assess strength and direction.</p></li>
+</ul>
+<p>To support our findings, we will use ggplot2 in R to create clear and informative visualizations—such as boxplots, bar charts, or scatterplots—highlighting any significant trends or differences between the EPT-present and EPT-absent lake groups. Finally, missing data and uneven sampling will be carefully handled—either through exclusion of incomplete rows or imputation strategies, depending on the nature and extent of the gaps.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-mullins1991macroinvertebrates" class="csl-entry" role="listitem">
+Mullins, G. W., &amp; Lewis, S. (1991). Macroinvertebrates as indicators of stream health. <em>The American Biology Teacher</em>, <em>53</em>(8), 462–466.
+</div>
+<div id="ref-sabo2005riparian" class="csl-entry" role="listitem">
+Sabo, J. L., Sponseller, R., Dixon, M., Gade, K., Harms, T., Heffernan, J., Jani, A., Katz, G., Soykan, C., Watts, J., et al. (2005). Riparian zones increase regional species richness by harboring different, not more, species. <em>Ecology</em>, <em>86</em>(1), 56–62.
+</div>
+</div>
+</section>
+</section>
+     </main>
+<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script> 
+  
+</body></html>
