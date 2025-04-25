@@ -408,7 +408,7 @@ ggplot(data_melted, aes(x = Park_Name, y = Areal_Cover, fill = Vegetation_Type))
 <back>
 </back>
 
-<sub-article article-type="notebook" id="nb-4-nb-article">
+<sub-article article-type="notebook" id="nb-3-nb-article">
 <front-stub>
 <title-group>
 <article-title>Draft Report</article-title>
