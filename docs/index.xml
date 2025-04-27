@@ -408,7 +408,7 @@ ggplot(data_melted, aes(x = Park_Name, y = Areal_Cover, fill = Vegetation_Type))
 <back>
 </back>
 
-<sub-article article-type="notebook" id="nb-4-nb-article">
+<sub-article article-type="notebook" id="nb-7-nb-article">
 <front-stub>
 <title-group>
 <article-title>Draft Report</article-title>
@@ -796,6 +796,577 @@ ggplot(data_melted, aes(x = Park_Name, y = Areal_Cover, fill = Vegetation_Type))
     data and uneven sampling will be carefully handled—either through
     exclusion of incomplete rows or imputation strategies, depending on
     the nature and extent of the gaps.</p>
+  </sec>
+</sec>
+</body>
+
+
+
+<back>
+</back>
+
+
+</sub-article>
+<sub-article article-type="notebook" id="nb-4-nb-1">
+<front-stub>
+<title-group>
+<article-title>Lab 9</article-title>
+</title-group>
+<contrib-group>
+<contrib contrib-type="author">
+<name>
+<surname>Mckenna Cooper</surname>
+<given-names>&amp; Sarah Culhane</given-names>
+</name>
+<string-name>Mckenna Cooper, Archer Goodman, &amp; Sarah
+Culhane</string-name>
+
+</contrib>
+</contrib-group>
+</front-stub>
+
+<body>
+<sec id="lab-9-project-updates-results-and-discussion-nb-1">
+  <title>Lab 9: Project Updates (Results and Discussion)</title>
+  <sec id="methods-nb-1">
+    <title>Methods</title>
+    <p>Our analysis focused on assessing the relationship between
+    riparian vegetation characteristics and the diversity of freshwater
+    macroinvertebrates, especially EPT taxa (Ephemeroptera, Plecoptera,
+    Trichoptera), in Lassen Volcanic National Park for the years 2013
+    and 2019. We began by loading three datasets: InvertSpecies.csv,
+    RiparianCover.csv, and WaterQuality.csv, filtering each to include
+    only observations from Lassen Volcanic National Park in the target
+    years. Using shared identifiers (Lake_Code, Start_Date, Park_Name),
+    we merged the datasets for each year to create two comprehensive
+    data frames, one for 2013 and one for 2019. To evaluate invertebrate
+    community health, we calculated an EPT Score, defined as the ratio
+    of EPT taxa counts to non-EPT taxa counts for each sampling date.
+    Riparian vegetation quality was proxied through the categorical
+    variable Barren_AreaCcover, which we converted into a numerical
+    estimate of vegetative cover. We selected the 2013 dataset to build
+    and evaluate a random forest regression model predicting EPT Score
+    using water-quality and vegetation-related predictors: temperature
+    in celsius, pH, dissolved oxygen, and estimated vegetative cover.
+    Data was split into training and testing sets using initial_split(),
+    and a cross-validation strategy (vfold_cv) was applied. We tuned
+    model hyperparameters using tune_grid() and finalized the model
+    based on RMSE performance. To visualize patterns and support
+    interpretation, we generated several plots using ggplot2, including:
+    Bar plots comparing insect order abundances by year</p>
+    <p>Boxplots of water quality metrics across years</p>
+    <p>A correlation heatmap to assess relationships between water
+    quality parameters, EPT scores, and vegetation</p>
+    <p>A barren cover comparison plot between 2013 and 2019</p>
+    <p>All analyses were conducted in RStudio using the tidymodels,
+    dplyr, and ggplot2 packages.</p>
+  </sec>
+  <sec id="drafting-the-results-nb-1">
+    <title>Drafting the Results</title>
+    <sec id="data-prep-modeling-nb-1">
+      <title>Data Prep &amp; Modeling:</title>
+      <sec specific-use="notebook-content">
+      <code language="r script">#Loading Libraries
+library(ggplot2)
+library(dplyr)
+      </code>
+      <boxed-text>
+        <preformat>
+Attaching package: 'dplyr'</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>The following objects are masked from 'package:stats':
+
+    filter, lag</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</preformat>
+      </boxed-text>
+      <code language="r script">library(tidymodels)
+      </code>
+      <boxed-text>
+        <preformat>── Attaching packages ────────────────────────────────────── tidymodels 1.2.0 ──</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>✔ broom        1.0.7     ✔ rsample      1.2.1
+✔ dials        1.4.0     ✔ tibble       3.2.1
+✔ infer        1.0.7     ✔ tidyr        1.3.1
+✔ modeldata    1.4.0     ✔ tune         1.3.0
+✔ parsnip      1.3.0     ✔ workflows    1.2.0
+✔ purrr        1.0.4     ✔ workflowsets 1.1.0
+✔ recipes      1.1.1     ✔ yardstick    1.3.2</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>Warning: package 'broom' was built under R version 4.4.3</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✖ purrr::discard() masks scales::discard()
+✖ dplyr::filter()  masks stats::filter()
+✖ dplyr::lag()     masks stats::lag()
+✖ recipes::step()  masks stats::step()
+• Learn how to get started at https://www.tidymodels.org/start/</preformat>
+      </boxed-text>
+      <code language="r script">library(parsnip)
+      </code>
+      </sec>
+      <sec specific-use="notebook-content">
+      <code language="r script">#Load data
+invert_species &lt;- read.csv(&quot;InvertSpecies.csv&quot;)
+riparian_cover &lt;- read.csv(&quot;RiparianCover.csv&quot;)
+water_quality &lt;- read.csv(&quot;WaterQuality.csv&quot;)
+
+# Filter for Lassen Volcanic National Park and our year of 2013
+invert_species_2013 &lt;- invert_species %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot; &amp; 
+           (Start_Date &gt;= as.Date(&quot;2013-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2013-12-31&quot;)) |
+           (Start_Date &gt;= as.Date(&quot;2019-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2019-12-31&quot;)))
+
+riparian_cover_2013 &lt;- riparian_cover %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot; &amp; 
+           (Start_Date &gt;= as.Date(&quot;2013-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2013-12-31&quot;)) | 
+           (Start_Date &gt;= as.Date(&quot;2019-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2019-12-31&quot;)))
+
+water_quality_2013 &lt;- water_quality %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot; &amp; 
+           (Start_Date &gt;= as.Date(&quot;2013-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2013-12-31&quot;)) |
+           (Start_Date &gt;= as.Date(&quot;2019-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2019-12-31&quot;)))
+
+# Merge datasets
+merged_data_2013 &lt;- invert_species_2013 %&gt;%
+  inner_join(riparian_cover_2013, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, &quot;Start_Date&quot;)) %&gt;%
+  inner_join(water_quality_2013, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, &quot;Start_Date&quot;))
+      </code>
+      <boxed-text>
+        <preformat>Warning in inner_join(., riparian_cover_2013, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, : Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 1 of `x` matches multiple rows in `y`.
+ℹ Row 1 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  &quot;many-to-many&quot;` to silence this warning.</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>Warning in inner_join(., water_quality_2013, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, : Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 1 of `x` matches multiple rows in `y`.
+ℹ Row 1 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  &quot;many-to-many&quot;` to silence this warning.</preformat>
+      </boxed-text>
+      <code language="r script">#glimpse(merged_data_2013)
+
+#Selecting our data for 2019
+invert_species_2019 &lt;- invert_species %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot; &amp; 
+           Start_Date &gt;= as.Date(&quot;2019-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2019-12-31&quot;))
+
+riparian_cover_2019 &lt;- riparian_cover %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot; &amp; 
+           Start_Date &gt;= as.Date(&quot;2019-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2019-12-31&quot;))
+
+water_quality_2019 &lt;- water_quality %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot; &amp; 
+           Start_Date &gt;= as.Date(&quot;2019-01-01&quot;) &amp; 
+           Start_Date &lt;= as.Date(&quot;2019-12-31&quot;))
+
+# Merge datasets
+merged_data_2019 &lt;- invert_species_2019 %&gt;%
+  inner_join(riparian_cover_2019, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, &quot;Start_Date&quot;)) %&gt;%
+  inner_join(water_quality_2019, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, &quot;Start_Date&quot;))
+      </code>
+      <boxed-text>
+        <preformat>Warning in inner_join(., riparian_cover_2019, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, : Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 1 of `x` matches multiple rows in `y`.
+ℹ Row 1 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  &quot;many-to-many&quot;` to silence this warning.</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>Warning in inner_join(., water_quality_2019, by = c(&quot;Lake_Code&quot;, &quot;Park_Name&quot;, : Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 1 of `x` matches multiple rows in `y`.
+ℹ Row 1 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  &quot;many-to-many&quot;` to silence this warning.</preformat>
+      </boxed-text>
+      <code language="r script">#glimpse(merged_data_2019)
+      </code>
+      </sec>
+      <sec specific-use="notebook-content">
+      <code language="r script">#setting up some useful metrics, limiting data to stuff we need
+melded_data_2013 &lt;- merged_data_2013 |&gt;
+  mutate(EPT_taxa = ifelse(Order == &quot;Ephemeroptera&quot; |
+                             Order == &quot;Plecoptera&quot; |
+                             Order == &quot;Trichoptera&quot;, 
+                           &quot;Yes&quot;, &quot;No&quot;),
+         Veg_Cover = case_when(
+           Barren_AreaCcover == &quot;sparse (&lt;10%)&quot; ~ 0.05,
+           Barren_AreaCcover == &quot;moderate (10-40%)&quot; ~ 0.25,
+           Barren_AreaCcover == &quot;heavy (40-75%)&quot; ~ 0.57,
+           Barren_AreaCcover == &quot;very heavy (&gt;75%)&quot; ~ 0.87)) |&gt;
+  summarize(Unit_Code, 
+            Park_Name, 
+            Lake_Code, 
+            Start_Date, 
+            Order, 
+            Count, 
+            EPT_taxa, 
+            Veg_Cover, 
+            Temperature_C,
+            Dissolved_oxygen, 
+            pH, 
+            Depth_m, 
+            Turbidity, 
+            )
+      </code>
+      <boxed-text>
+        <preformat>Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+dplyr 1.1.0.
+ℹ Please use `reframe()` instead.
+ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+  always returns an ungrouped data frame and adjust accordingly.</preformat>
+      </boxed-text>
+      <code language="r script">melded_data_2013 &lt;- melded_data_2013 |&gt;
+  group_by(Start_Date, Unit_Code) |&gt;
+  mutate(
+    Yes_Total = sum(Count[EPT_taxa == &quot;Yes&quot;], na.rm = TRUE),
+    No_Total = sum(Count[EPT_taxa == &quot;No&quot;], na.rm = TRUE),
+    EPT_Score = Yes_Total / No_Total
+  ) |&gt;
+  ungroup()
+
+glimpse(melded_data_2013)
+      </code>
+      <boxed-text>
+        <preformat>Rows: 217,950
+Columns: 16
+$ Unit_Code        &lt;chr&gt; &quot;CRLA&quot;, &quot;CRLA&quot;, &quot;CRLA&quot;, &quot;CRLA&quot;, &quot;CRLA&quot;, &quot;CRLA&quot;, &quot;CRLA…
+$ Park_Name        &lt;chr&gt; &quot;Crater Lake National Park&quot;, &quot;Crater Lake National Pa…
+$ Lake_Code        &lt;chr&gt; &quot;CRLAWQL04&quot;, &quot;CRLAWQL04&quot;, &quot;CRLAWQL04&quot;, &quot;CRLAWQL04&quot;, &quot;…
+$ Start_Date       &lt;chr&gt; &quot;2019-09-10&quot;, &quot;2019-09-10&quot;, &quot;2019-09-10&quot;, &quot;2019-09-10…
+$ Order            &lt;chr&gt; &quot;Trichoptera&quot;, &quot;Trichoptera&quot;, &quot;Trichoptera&quot;, &quot;Trichop…
+$ Count            &lt;int&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,…
+$ EPT_taxa         &lt;chr&gt; &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes…
+$ Veg_Cover        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0.25,…
+$ Temperature_C    &lt;dbl&gt; 13.61, 13.60, 13.72, 13.69, 13.61, 13.60, 13.72, 13.6…
+$ Dissolved_oxygen &lt;dbl&gt; 6.07, 6.12, 7.15, 6.53, 6.07, 6.12, 7.15, 6.53, 6.07,…
+$ pH               &lt;dbl&gt; 6.59, 6.61, 6.65, 6.61, 6.59, 6.61, 6.65, 6.61, 6.59,…
+$ Depth_m          &lt;dbl&gt; 1.12, 1.03, 0.00, 0.50, 1.12, 1.03, 0.00, 0.50, 1.12,…
+$ Turbidity        &lt;dbl&gt; -1.08, -1.20, -1.22, -1.21, -1.08, -1.20, -1.22, -1.2…
+$ Yes_Total        &lt;int&gt; 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180…
+$ No_Total         &lt;int&gt; 38400, 38400, 38400, 38400, 38400, 38400, 38400, 3840…
+$ EPT_Score        &lt;dbl&gt; 0.0046875, 0.0046875, 0.0046875, 0.0046875, 0.0046875…</preformat>
+      </boxed-text>
+      <code language="r script">#and the same for 2019
+melded_data_2019 &lt;- merged_data_2019 |&gt;
+  mutate(EPT_taxa = ifelse(Order == &quot;Ephemeroptera&quot; |
+                             Order == &quot;Plecoptera&quot; |
+                             Order == &quot;Trichoptera&quot;, 
+                           &quot;Yes&quot;, &quot;No&quot;)) |&gt;
+  summarize(Unit_Code, 
+            Park_Name, 
+            Lake_Code, 
+            Start_Date, 
+            Order, 
+            Count, 
+            EPT_taxa, 
+            Barren_AreaCcover, 
+            Temperature_C, 
+            Dissolved_oxygen, 
+            pH, 
+            Depth_m, 
+            Turbidity, 
+            )
+      </code>
+      <boxed-text>
+        <preformat>Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+dplyr 1.1.0.
+ℹ Please use `reframe()` instead.
+ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+  always returns an ungrouped data frame and adjust accordingly.</preformat>
+      </boxed-text>
+      <code language="r script">melded_data_2019 &lt;- melded_data_2019 |&gt;
+  group_by(Start_Date, Unit_Code) |&gt;
+  mutate(
+    Yes_Total = sum(Count[EPT_taxa == &quot;Yes&quot;], na.rm = TRUE),
+    No_Total = sum(Count[EPT_taxa == &quot;No&quot;], na.rm = TRUE),
+    EPT_Score = Yes_Total / No_Total
+  ) |&gt;
+  ungroup()
+#glimpse(melded_data_2013)
+      </code>
+      </sec>
+      <sec specific-use="notebook-content">
+      <code language="r script">#Conduct a test. 
+set.seed(15379)
+#used my old robotics team's number for the seed, easy for me to remember
+
+#We're gonna do this with just 2013 data for right now
+#giving my data splits catchy names 
+banana_split &lt;- initial_split(melded_data_2013, prop = 0.8)
+#Chocolate &gt; choochoo &gt; train &gt; training data
+choco_choochoo &lt;- training(banana_split)
+#vanilla &gt; vanilla ice &gt; mic check &quot;testing testing&quot; &gt; testing data
+vanilla_ice_mic &lt;- testing(banana_split)
+
+#glimpse(choco_choochoo)
+
+#specifying a recipe
+sundae_recipe &lt;- recipe(EPT_Score ~ 
+                          Start_Date +
+                          Veg_Cover + 
+                          Temperature_C + 
+                          Dissolved_oxygen + 
+                          pH + 
+                          Depth_m + 
+                          Turbidity, 
+                        data = choco_choochoo) |&gt;
+  step_normalize(all_numeric_predictors())
+
+#specifying a model
+icecream_model &lt;- rand_forest(mtry = tune(), trees = 250, min_n = 500) |&gt;
+  set_engine(&quot;ranger&quot;) |&gt;
+  set_mode(&quot;regression&quot;)
+
+#creating workflow
+icecream_scoop &lt;- workflow() |&gt;
+  add_model(icecream_model) |&gt;
+  add_recipe(sundae_recipe)
+
+#testing the model with cross_validation
+#validating the process for making a new icecream flavor
+validated_process &lt;- vfold_cv(vanilla_ice_mic, v = 5)
+#tuning the model
+salt_to_taste &lt;- tune_grid(
+  icecream_scoop,
+  resamples = validated_process,
+  grid = 10
+)
+      </code>
+      <boxed-text>
+        <preformat>i Creating pre-processing data to finalize unknown parameter: mtry</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>Warning: package 'ranger' was built under R version 4.4.3</preformat>
+      </boxed-text>
+      <code language="r script">#selecting the best model
+#choosing the best formulas for the new icecream flavor
+best_flavor &lt;- select_best(salt_to_taste, metric = &quot;rmse&quot;)
+
+#finalizing the model
+#selecting the winning flavor
+final_flavor &lt;- finalize_model(icecream_model, best_flavor)
+
+#workflow with finalized model
+#designing packaging for new flavor i guess?
+final_flav_package &lt;- icecream_scoop |&gt;
+  finalize_workflow(best_flavor)
+
+#fitting the workflow to the training data
+#shipping the new flavor to the stores
+icecream_retail &lt;- final_flav_package |&gt;
+  fit(data = choco_choochoo)
+
+#making predictions
+#seeing how the market reacts to the new flavor
+public_tastes &lt;- predict(icecream_retail, new_data = vanilla_ice_mic) |&gt;
+  bind_cols(vanilla_ice_mic)
+
+#evaluating model performance
+#Leaving a review of the ice cream flavor i guess
+parlor_review &lt;- public_tastes |&gt;
+  metrics(truth = EPT_Score, estimate = .pred)
+
+#visualising model performance
+ggplot(public_tastes, aes(x = EPT_Score, y = .pred)) + 
+  geom_point(alpha = 0.5) + 
+  geom_abline(linetype = &quot;dashed&quot;, color = &quot;blue&quot;) + 
+  labs(x = &quot;Actual&quot;, y = &quot;Predicted&quot;, title = &quot;Predicted vs Actual&quot;)
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="lab_9_files/figure-jats/unnamed-chunk-4-1.png" />
+      </sec>
+    </sec>
+    <sec id="for-taxa-order-nb-1">
+      <title>For Taxa Order</title>
+      <sec specific-use="notebook-content">
+      <code language="r script"># Summarize 2013 data
+insect_order_counts_2013 &lt;- melded_data_2013 %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot;) %&gt;%
+  group_by(Order) %&gt;%
+  summarise(Total_Count = sum(Count, na.rm = TRUE)) %&gt;%
+  mutate(Year = 2013)
+
+# Summarize 2019 data
+insect_order_counts_2019 &lt;- melded_data_2019 %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot;) %&gt;%
+  group_by(Order) %&gt;%
+  summarise(Total_Count = sum(Count, na.rm = TRUE)) %&gt;%
+  mutate(Year = 2019)
+
+# Combine both
+insect_order_counts_combined &lt;- bind_rows(insect_order_counts_2013, insect_order_counts_2019)
+
+# Plot
+ggplot(insect_order_counts_combined, aes(x = reorder(Order, -Total_Count), y = Total_Count, fill = factor(Year))) +
+  geom_col(position = &quot;dodge&quot;) +
+  labs(
+    title = &quot;Comparison of Insect Counts by Order: 2013 vs 2019&quot;,
+    x = &quot;Insect Order&quot;,
+    y = &quot;Total Count&quot;,
+    fill = &quot;Year&quot;
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="lab_9_files/figure-jats/unnamed-chunk-5-1.png" />
+      </sec>
+    </sec>
+    <sec id="for-barren-cover-nb-1">
+      <title>For Barren Cover</title>
+      <sec specific-use="notebook-content">
+      <code language="r script"># Add year column to each dataset
+barren_2013 &lt;- merged_data_2013 %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot;) %&gt;%
+  select(Barren_AreaCcover) %&gt;%
+  mutate(Year = 2013)
+
+barren_2019 &lt;- merged_data_2019 %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot;) %&gt;%
+  select(Barren_AreaCcover) %&gt;%
+  mutate(Year = 2019)
+
+# Combine both
+barren_combined &lt;- bind_rows(barren_2013, barren_2019)
+
+# Plot
+ggplot(barren_combined, aes(x = Barren_AreaCcover, fill = factor(Year))) +
+  geom_bar(position = &quot;dodge&quot;) +
+  labs(
+    title = &quot;Barren Area Cover in Lassen Volcanic National Park (2013 vs 2019)&quot;,
+    x = &quot;Barren Area Cover Category&quot;,
+    y = &quot;Number of Observations&quot;,
+    fill = &quot;Year&quot;
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="lab_9_files/figure-jats/unnamed-chunk-6-1.png" />
+      </sec>
+    </sec>
+    <sec id="for-water-quality-box-plots-nb-1">
+      <title>For Water Quality Box Plots</title>
+      <sec specific-use="notebook-content">
+      <code language="r script"># Combine data, reshape, and filter
+water_quality_box &lt;- bind_rows(
+  melded_data_2013 %&gt;% mutate(Year = &quot;2013&quot;),
+  melded_data_2019 %&gt;% mutate(Year = &quot;2019&quot;)
+) %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot;) %&gt;%
+  select(Temperature_C, Dissolved_oxygen, pH, Year) %&gt;%
+  drop_na() %&gt;%
+  pivot_longer(cols = c(Temperature_C, Dissolved_oxygen, pH),
+               names_to = &quot;Metric&quot;, values_to = &quot;Value&quot;)
+
+# Create box plot
+ggplot(water_quality_box, aes(x = Year, y = Value, fill = Year)) +
+  geom_boxplot(alpha = 0.7, outlier.color = &quot;black&quot;) +
+  facet_wrap(~ Metric, scales = &quot;free_y&quot;) +
+  labs(
+    title = &quot;Box Plots of Water Quality Metrics (Lassen Volcanic National Park)&quot;,
+    x = &quot;Year&quot;,
+    y = &quot;Value&quot;
+  ) +
+  scale_fill_manual(values = c(&quot;2013&quot; = &quot;blue&quot;, &quot;2019&quot; = &quot;orange&quot;)) +
+  theme_minimal() +
+  theme(text = element_text(size = 13), legend.position = &quot;none&quot;)
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="lab_9_files/figure-jats/unnamed-chunk-7-1.png" />
+      </sec>
+    </sec>
+    <sec id="for-correlation-heat-map-nb-1">
+      <title>For Correlation Heat Map</title>
+      <sec specific-use="notebook-content">
+      <code language="r script"># Combine 2013 and 2019 data, filter, and select relevant columns
+cor_data_full &lt;- bind_rows(
+  melded_data_2013 %&gt;% mutate(Year = &quot;2013&quot;),
+  melded_data_2019 %&gt;% mutate(Year = &quot;2019&quot;)
+) %&gt;%
+  filter(Park_Name == &quot;Lassen Volcanic National Park&quot;) %&gt;%
+  select(Temperature_C, Dissolved_oxygen, pH, EPT_Score, Veg_Cover) %&gt;%
+  drop_na()
+
+# Compute correlation matrix
+cor_matrix_full &lt;- cor(cor_data_full, use = &quot;complete.obs&quot;)
+
+# Reshape for heatmap
+library(reshape2)
+      </code>
+      <boxed-text>
+        <preformat>Warning: package 'reshape2' was built under R version 4.4.3</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>
+Attaching package: 'reshape2'</preformat>
+      </boxed-text>
+      <boxed-text>
+        <preformat>The following object is masked from 'package:tidyr':
+
+    smiths</preformat>
+      </boxed-text>
+      <code language="r script">cor_melt_full &lt;- melt(cor_matrix_full)
+
+# Plot heatmap
+ggplot(cor_melt_full, aes(Var1, Var2, fill = value)) +
+  geom_tile(color = &quot;white&quot;) +
+  scale_fill_gradient2(
+    low = &quot;red&quot;, high = &quot;blue&quot;, mid = &quot;white&quot;,
+    midpoint = 0, limit = c(-1, 1),
+    name = &quot;Correlation&quot;
+  ) +
+  labs(
+    title = &quot;Correlation Heatmap: Water Quality, EPT Score, and Barren Cover (Lassen Volcanic National Park)&quot;,
+    x = NULL, y = NULL
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+      </code>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="lab_9_files/figure-jats/unnamed-chunk-8-1.png" />
+      </sec>
+    </sec>
+  </sec>
+  <sec id="discussion-nb-1">
+    <title>Discussion</title>
+    <p>Results suggest that there was an overall decline in
+    macroinvertebrate taxa richness across all orders between 2013 and
+    2019 in water bodies within Lassen Volcanic National Park. The
+    strong positive correlation between pH, dissolved oxygen, and
+    EPT_score suggests that the decline in pH and dissolved oxygen
+    present in those water bodies may have been partially responsible
+    for the decline in taxa richness. Vegetation present in riparian
+    zones within the park seemed to have increased, according to our
+    analysis, and veg_cover and EPT_score seem to have a negative
+    correlation. This suggests that as vegetation cover increased, taxa
+    richness decreased, which goes against our hypothesis that more
+    riparian cover would lead to high taxa richness. The cause of this
+    is unknown and warrants further research. Going forward, more
+    focused research and data collection needs to be done to find the
+    source of pollution in Lassen Volcanic National Park so that
+    measures can be taken to combat pollution at the source and improve
+    the water quality of water bodies within the park. Limitations of
+    our analysis include the fact that there was a lot of cleaning that
+    had to be done in our dataset, and there was a disproportionate
+    amount of data for each of the national parks and years that data
+    was collected, with some parks and years having significantly more
+    data than others. Crater Lake National Park especially had less data
+    than both Volcanic National Park and Redwood National State
+    Park.</p>
   </sec>
 </sec>
 </body>
